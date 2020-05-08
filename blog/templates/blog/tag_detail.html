@@ -1,0 +1,14 @@
+{% extends 'blog/base_blog.html' %}
+
+{% block title %}
+    {{ tag.title }} - {{ blog.super }}   <!--call parents' block-->
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-5">Posts with "{{ tag.title|title }}" tag:</h1>  <!-- filter to capitalize-->
+
+    {% for post in tag.posts.all %}
+        {% include 'blog/includes/post_card_template.html' %}  <!--full path for insert another pattern-->
+    {% endfor %}
+
+{% endblock %}

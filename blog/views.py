@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Post, Tag
 from django.views.generic import View
-from .utils import ObjectDetailMixin
+from .utils import ObjectDetailMixin, ObjCreateMixin, ObjectUpdateMixin
+from .forms import TagForm, PostForm
 
 
 def post_list(request):
@@ -12,17 +13,33 @@ def post_list(request):
 class PostDetail(ObjectDetailMixin, View):
     model = Post
     template = 'blog/post_detail.html'
-    # def get(self, request, slug):  # process GET requests, no needs in "if else"...
-    #     post = get_object_or_404(Post, slug__iexact=slug)  # class indeed + condition
-    #     return render(request, 'blog/post_detail.html', context={'post': post})
+
+
+class PostCreate(ObjCreateMixin, View):
+    form_model = PostForm
+    template = 'blog/post_create.html'
+
+
+class PostUpdate(ObjectUpdateMixin, View):
+    model = Post
+    model_form = PostForm
+    template = 'blog/post_update.html'
 
 
 class TagDetail(ObjectDetailMixin, View):
     model = Tag
     template = 'blog/tag_detail.html'
-    # def get(self, request, slug):
-    #     tag = get_object_or_404(Tag, slug__iexact=slug)
-    #     return render(request, 'blog/tag_detail.html', context={'tag': tag})
+
+
+class TagCreate(ObjCreateMixin, View):
+    form_model = TagForm
+    template = 'blog/tag_create.html'
+
+
+class TagUpdate(ObjectUpdateMixin, View):
+    model = Tag
+    model_form = TagForm
+    template = 'blog/tag_update.html'
 
 
 def tags_list(request):
